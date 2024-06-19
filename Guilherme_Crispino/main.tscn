@@ -1,0 +1,65 @@
+[gd_scene load_steps=11 format=3 uid="uid://b4v6w0hbny8tk"]
+
+[ext_resource type="PackedScene" uid="uid://b78du2u1labuy" path="res://prefabs/player.tscn" id="1_eo1y0"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_smx0e"]
+[ext_resource type="PackedScene" uid="uid://ck24itsct1tgy" path="res://prefabs/enemy.tscn" id="2_8twkm"]
+[ext_resource type="AudioStream" uid="uid://bt6xlwitqoprw" path="res://sounds/gameover.wav" id="3_82yvo"]
+[ext_resource type="PackedScene" uid="uid://c0nbnl3k6tduu" path="res://prefabs/hud.tscn" id="3_w22fd"]
+[ext_resource type="AudioStream" uid="uid://d4i43iph5pkxe" path="res://sounds/House In a Forest Loop.ogg" id="4_mlev0"]
+[ext_resource type="Shader" path="res://shaders/scrolling_bg.gdshader" id="5_radx6"]
+[ext_resource type="Texture2D" uid="uid://65on1bknij1r" path="res://assets/bg.png" id="6_rub6h"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iipnk"]
+shader = ExtResource("5_radx6")
+shader_parameter/speed = 1.0
+
+[sub_resource type="Curve2D" id="Curve2D_s45hn"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 480, 0, 0, 0, 0, 0, 480, 720, 0, 0, 0, 0, 0, 720, 0, 0, 0, 0, -1, 7, 0, 0, 0, 0, 0, 0)
+}
+point_count = 6
+
+[node name="main" type="Node2D"]
+script = ExtResource("1_smx0e")
+bug_scene = ExtResource("2_8twkm")
+
+[node name="gameOverSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_82yvo")
+
+[node name="bgMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_mlev0")
+
+[node name="BG" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_iipnk")
+offset_right = 480.0
+offset_bottom = 720.0
+texture = ExtResource("6_rub6h")
+stretch_mode = 1
+
+[node name="HUD" parent="." instance=ExtResource("3_w22fd")]
+
+[node name="player" parent="." instance=ExtResource("1_eo1y0")]
+position = Vector2(234, 450)
+
+[node name="BugTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="ScoreTimer2" type="Timer" parent="."]
+
+[node name="StartTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="StartPosition" type="Marker2D" parent="."]
+position = Vector2(240, 360)
+
+[node name="BugPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_s45hn")
+
+[node name="BugPathLocation" type="PathFollow2D" parent="BugPath"]
+
+[connection signal="start_game" from="HUD" to="." method="new_game"]
+[connection signal="hit" from="player" to="." method="game_over"]
+[connection signal="timeout" from="BugTimer" to="." method="_on_bug_timer_timeout"]
+[connection signal="timeout" from="ScoreTimer2" to="." method="_on_score_timer_2_timeout"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
