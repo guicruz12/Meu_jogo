@@ -1,15 +1,15 @@
 [gd_scene load_steps=7 format=3 uid="uid://ck24itsct1tgy"]
 
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="1_8qgfr"]
-[ext_resource type="Texture2D" uid="uid://cel513wglmtm" path="res://assets/blue_beetle.png" id="2_2u7rp"]
-[ext_resource type="Texture2D" uid="uid://brhog1m1jtuq2" path="res://assets/red_beetle.png" id="3_t4kih"]
-[ext_resource type="Texture2D" uid="uid://8moul5k4lp4b" path="res://assets/yellow_beetle.png" id="4_75407"]
+[ext_resource type="Texture2D" uid="uid://bk28etf4n0d6k" path="res://assets/Allan.png" id="2_11rto"]
+[ext_resource type="Texture2D" uid="uid://bewti6hwr7v4r" path="res://assets/Dino.png" id="3_tl5nq"]
+[ext_resource type="Texture2D" uid="uid://bmgk2jcaxw313" path="res://assets/BEn 10.jpg" id="4_ixod2"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5rxq3"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_2u7rp")
+"texture": ExtResource("2_11rto")
 }],
 "loop": true,
 "name": &"blue-beetle",
@@ -17,7 +17,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_t4kih")
+"texture": ExtResource("3_tl5nq")
 }],
 "loop": true,
 "name": &"red_beetle",
@@ -25,15 +25,15 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_75407")
+"texture": ExtResource("4_ixod2")
 }],
 "loop": true,
 "name": &"yellow_beetle",
 "speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ngy87"]
-radius = 4.63765
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bgem7"]
+size = Vector2(4.6, 5)
 
 [node name="enemy" type="RigidBody2D" groups=["bugs"]]
 collision_layer = 2
@@ -41,16 +41,18 @@ gravity_scale = 0.0
 script = ExtResource("1_8qgfr")
 
 [node name="anim" type="AnimatedSprite2D" parent="."]
-position = Vector2(-4, -1)
-scale = Vector2(0.5, 0.463)
+position = Vector2(-14, -16)
+scale = Vector2(0.13, 0.0850001)
 sprite_frames = SubResource("SpriteFrames_5rxq3")
 animation = &"blue-beetle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-4, -2)
-scale = Vector2(5.02191, 5.09584)
-shape = SubResource("CircleShape2D_ngy87")
+position = Vector2(-13.5, -15.5)
+scale = Vector2(5, 5)
+shape = SubResource("RectangleShape2D_bgem7")
 
 [node name="visible" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(-15, -16)
+scale = Vector2(1.33994, 1.31613)
 
 [connection signal="screen_exited" from="visible" to="." method="_on_visible_screen_exited"]
